@@ -22,3 +22,7 @@ input::placeholder {
   color: red;
   font-weight: bolder;
 }
+
+.invisible {
+  display: none;
+}

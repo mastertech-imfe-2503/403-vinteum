@@ -1,9 +1,12 @@
 const startButton = document.querySelector('.first-page button');
 const inputs = document.querySelectorAll('input');
+const firstPage = document.querySelector('.first-page');
+const secondPage = document.querySelector('.second-page');
 
 startButton.onclick = function(){
   if(validateNames()){
-    console.log("Input validated");
+    firstPage.classList.toggle('invisible');
+    secondPage.classList.toggle('invisible');
   }
 }
 
