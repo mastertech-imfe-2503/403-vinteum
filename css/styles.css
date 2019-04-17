@@ -17,3 +17,8 @@ body {
 .first-page button{
   margin-top: 20px;
 }
+
+input::placeholder {
+  color: red;
+  font-weight: bolder;
+}
