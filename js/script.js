@@ -50,6 +50,9 @@ function validateNames(){
 function startGame(){
   sortNames();
   getDeck();
+  document.querySelector('button[name="0"]').onclick = function(event){
+    drawCards(parseInt(event.target.name), 1);
+  };
 }
 
 function sortNames(){
@@ -93,7 +96,6 @@ function drawCards(index, cards){
 }
 
 function updateScreen(index){
-    players[index].hand.innerHTML = "";
     for(card of players[index].cards){
       let cardImage = document.createElement("img");
       cardImage.src = card.image;
