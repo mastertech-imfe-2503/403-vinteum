@@ -114,6 +114,9 @@ function updateScore(index){
     if(index === 0 && parseInt(players[index].score.innerHTML) >= 21){
       changePlayer();
     }
+    if(index === 1 && parseInt(players[index].score.innerHTML) >= 21){
+      endGame();
+    }
 }
 
 function changePlayer(){
@@ -123,4 +126,27 @@ function changePlayer(){
   document.querySelector('button[name="1"]').onclick = function(event){
     drawCards(parseInt(event.target.name), 1);
   };
+  document.querySelector('button[name="stop1"]').onclick = endGame;
+}
+
+function endGame(){
+  let winner;
+
+  document.querySelector('button[name="1"]').onclick = null;
+  document.querySelector('button[name="stop1"]').onclick = null;
+
+  let score0 = Math.abs(parseInt(players[0].score.innerHTML)- 21);
+  let score1 = Math.abs(parseInt(players[1].score.innerHTML) - 21);
+
+  if(score0 === score1){
+    winner = "empate"
+  }
+  else if(score0 < score1){
+    winner = `vencedor: ${players[0].name}`;
+  }
+  else{
+    winner = `vencedor: ${players[1].name}`;
+  }
+
+  document.querySelector('.winner').innerHTML = `${winner.toUpperCase()}`;
 }
