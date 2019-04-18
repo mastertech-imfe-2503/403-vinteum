@@ -3,10 +3,24 @@ const inputs = document.querySelectorAll('input');
 const firstPage = document.querySelector('.first-page');
 const secondPage = document.querySelector('.second-page');
 
+let players = [
+  {
+    name: '',
+    score: 0,
+    cards: []
+  },
+  {
+    name: '',
+    score: 0,
+    cards: []
+  }
+];
+
 startButton.onclick = function(){
   if(validateNames()){
     firstPage.classList.toggle('invisible');
     secondPage.classList.toggle('invisible');
+    startGame();
   }
 }
 
@@ -20,4 +34,25 @@ function validateNames(){
   }
 
   return result;
+}
+
+function startGame(){
+  sortNames();
+  // pegar duas cartas para cada um
+  // somar os pontos de cada um e colocar na tela
+}
+
+function sortNames(){
+  let random = Math.random();
+  if(random > 0.5){
+    players[0].name = inputs[0].value;
+    players[1].name = inputs[1].value;
+  }
+  else{
+    players[1].name = inputs[0].value;
+    players[0].name = inputs[1].value;
+  }
+
+  document.querySelector('.player1 .name').innerHTML = players[0].name;
+  document.querySelector('.player2 .name').innerHTML = players[1].name;
 }
