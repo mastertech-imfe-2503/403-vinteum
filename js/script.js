@@ -3,18 +3,27 @@ const inputs = document.querySelectorAll('input');
 const firstPage = document.querySelector('.first-page');
 const secondPage = document.querySelector('.second-page');
 
+const valueMap = {
+  "ACE": 1,
+  "QUEEN": 10,
+  "JACK": 10,
+  "KING": 10
+}
+
 let deckID;
 
 let players = [
   {
     name: '',
-    score: 0,
-    cards: []
+    score: document.querySelector(".player0 .score"),
+    cards: [],
+    hand: document.querySelector(".player0 .cards"),
   },
   {
     name: '',
-    score: 0,
-    cards: []
+    score: document.querySelector(".player1 .score"),
+    cards: [],
+    hand: document.querySelector(".player1 .cards")
   }
 ];
 
@@ -41,8 +50,6 @@ function validateNames(){
 function startGame(){
   sortNames();
   getDeck();
-  // pegar duas cartas para cada um
-  // somar os pontos de cada um e colocar na tela
 }
 
 function sortNames(){
@@ -56,8 +63,8 @@ function sortNames(){
     players[0].name = inputs[1].value;
   }
 
-  document.querySelector('.player1 .name').innerHTML = players[0].name;
-  document.querySelector('.player2 .name').innerHTML = players[1].name;
+  document.querySelector('.player0 .name').innerHTML = players[0].name;
+  document.querySelector('.player1 .name').innerHTML = players[1].name;
 }
 
 function getDeck(){
@@ -67,6 +74,36 @@ function getDeck(){
   })
   .then(function(json){
     deckID = json.deck_id;
-    console.log(deckID);
+    drawCards(0, 2);
+    drawCards(1, 2);
   })
+}
+
+function drawCards(index, cards){
+  fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${cards}`)
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(json){
+    players[index].cards = json.cards;
+    console.log(json.cards);
+    updateScreen(index);
+    updateScore(index);
+  })
+}
+
+function updateScreen(index){
+    players[index].hand.innerHTML = "";
+    for(card of players[index].cards){
+      let cardImage = document.createElement("img");
+      cardImage.src = card.image;
+      cardImage.classList.add('card');
+      players[index].hand.appendChild(cardImage);
+    }
+  }
+
+function updateScore(index){
+    for(card of players[index].cards){
+      let currentValue = parseInt(players[index].score.innerHTML); players[index].score.innerHTML = currentValue + (valueMap[card.value] || parseInt(card.value));
+    }
 }
