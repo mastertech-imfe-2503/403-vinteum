@@ -53,6 +53,7 @@ function startGame(){
   document.querySelector('button[name="0"]').onclick = function(event){
     drawCards(parseInt(event.target.name), 1);
   };
+  document.querySelector('button[name="stop0"]').onclick = changePlayer;
 }
 
 function sortNames(){
@@ -108,4 +109,18 @@ function updateScore(index){
     for(card of players[index].cards){
       let currentValue = parseInt(players[index].score.innerHTML); players[index].score.innerHTML = currentValue + (valueMap[card.value] || parseInt(card.value));
     }
+    console.log(index);
+    console.log(parseInt(players[index].score.innerHTML));
+    if(index === 0 && parseInt(players[index].score.innerHTML) >= 21){
+      changePlayer();
+    }
+}
+
+function changePlayer(){
+  document.querySelector('button[name="0"]').onclick = null;
+  document.querySelector('button[name="stop0"]').onclick = null;
+
+  document.querySelector('button[name="1"]').onclick = function(event){
+    drawCards(parseInt(event.target.name), 1);
+  };
 }
